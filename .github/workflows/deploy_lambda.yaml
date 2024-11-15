@@ -30,7 +30,7 @@ jobs:
         working-directory: ./sam_lambda_59
         run: sam build --template template.yaml
 
-      n
+      
       - name: Deploy SAM Application
         working-directory: ./sam_lambda_59
         run: |
