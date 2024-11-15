@@ -10,9 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-     
+      
       - name: Checkout Code
         uses: actions/checkout@v3
+        with:
+          node-version: '20'  
 
       
       - name: Set up Python
@@ -21,13 +23,6 @@ jobs:
           python-version: 3.8  
 
      
-      - name: Install AWS CLI and SAM CLI
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y awscli
-          pip install aws-sam-cli
-
-      
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -35,11 +30,16 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      
+     
+      - name: Install SAM CLI
+        run: |
+          pip install aws-sam-cli
+
+
       - name: Build SAM Application
         run: sam build
 
-      
+     
       - name: Deploy SAM Application
         run: |
           sam deploy --no-confirm-changeset --stack-name imageGenerator59Stack --capabilities CAPABILITY_IAM
