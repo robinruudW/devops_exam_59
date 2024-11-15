@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  ImageGeneratorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.lambda_handler  # Set your handler here
+      Runtime: python3.8
+      Timeout: 60  
+      Environment:
+        Variables:
+          BUCKET_NAME: "pgr301-couch-explorers"
+          MODEL_ID: "amazon.titan-image-generator-v1"
+      Policies:
+  - S3WritePolicy:
+      BucketName: pgr301-couch-explorers
+  - Statement:
+      - Effect: "Allow"
+        Action:
+          - "s3:GetObject"
+        Resource: "arn:aws:s3:::pgr301-couch-explorers/*"
+      - Effect: "Allow"
+        Action:
+          - "bedrock:InvokeModel"
+        Resource: "*"
+      Events:
+        ImageGeneratorAPI:
+          Type: Api
+          Properties:
+            Path: /generate-image
+            Method: post
+Parameters:
+  BucketName:
+    Type: String
+    Default: "pgr301-couch-explorers"
