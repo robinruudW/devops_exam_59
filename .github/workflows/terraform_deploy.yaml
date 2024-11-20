@@ -1,49 +1,32 @@
-name: Terraform Deploy
-
-on:
-  push:
-    branches:
-      - main          
-      - '**'          
-
 jobs:
   terraform:
     name: Terraform Deployment
     runs-on: ubuntu-latest
 
-    env:
-      AWS_REGION: eu-west-1 
-
     steps:
-      
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.5.0
 
-      
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: eu-west-1
 
-      
-      - name: Terraform Init
-        run: terraform init
+      - name: Initialize Terraform
+        run: |
+          cd infra   # Navigate to the directory containing Terraform files
+          terraform init
 
-      
-      - name: Terraform Validate
-        run: terraform validate
-
-      
       - name: Terraform Plan or Apply
         run: |
+          cd infra   # Navigate to the directory containing Terraform files
           if [[ "${{ github.ref_name }}" == "main" ]]; then
             echo "Applying changes to main infrastructure..."
             terraform apply -auto-approve
@@ -51,4 +34,3 @@ jobs:
             echo "Planning changes for branch: ${{ github.ref_name }}"
             terraform plan
           fi
-
