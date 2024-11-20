@@ -39,7 +39,7 @@ resource "aws_lambda_function" "image_processor" {
   }
 }
 
-# Lambda and SQS Integration
+
 resource "aws_lambda_event_source_mapping" "sqs_event_mapping" {
   event_source_arn = aws_sqs_queue.image_processing_queue.arn
   function_name    = aws_lambda_function.image_processor.arn
