@@ -27,12 +27,12 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       
-      - name: Build and Push
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          file: java_sqs_client/Dockerfile.dev  
-          tags: |
-            ${{ secrets.DOCKER_USERNAME }}/java-sqs-client:latest
-            ${{ secrets.DOCKER_USERNAME }}/java-sqs-client:${{ github.sha }}
+     - name: Build and Push
+     uses: docker/build-push-action@v4
+     with:
+       context: java_sqs_client  
+       push: true
+       file: java_sqs_client/Dockerfile.dev
+       tags: |
+         ${{ secrets.DOCKER_USERNAME }}/java-sqs-client:latest
+         ${{ secrets.DOCKER_USERNAME }}/java-sqs-client:${{ github.sha }}
