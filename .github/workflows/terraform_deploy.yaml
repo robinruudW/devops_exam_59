@@ -3,12 +3,15 @@ name: Terraform Deploy
 on:
   push:
     branches:
-      - main          
+      - main                
 
 jobs:
   terraform:
     name: Terraform Deployment
     runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: eu-west-1  
 
     steps:
       - name: Checkout Repository
@@ -17,7 +20,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.9.0
+          terraform_version: 1.5.0
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
@@ -28,7 +31,7 @@ jobs:
 
       - name: Initialize Terraform
         run: |
-          cd infra   
+          cd infra  
           terraform init
 
       - name: Terraform Plan or Apply
