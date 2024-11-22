@@ -8,3 +8,8 @@ variable "my_role_arn" {
   type        = string
   default = "arn:aws:iam::244530008913:role/labda_sqs_s3_exam_59"
 }
+
+variable "notification_email" {
+  description = "Email address for CloudWatch alarm notifications"
+  type        = string
+}
