@@ -12,4 +12,5 @@ variable "my_role_arn" {
 variable "notification_email" {
   description = "Email address for CloudWatch alarm notifications"
   type        = string
+  defualt = "robin.r.waale@gmail.com"
 }
